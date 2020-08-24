@@ -67,7 +67,55 @@ public class EditSceneItem : MonoBehaviour
         }
         if (selectedItem)
         {
+            SetOutlineShader();
             RotateBtn.gameObject.SetActive(true);
+        }
+    }
+
+    void DisableSofaShader()
+    {
+        List<Renderer> renderer = GameObject.Find("Sofa").GetComponentsInChildren<Renderer>().ToList();
+        Shader shader = Shader.Find("Standard");
+        foreach (Renderer renders in renderer)
+        {
+            renders.material.shader = shader;
+        }
+    }
+
+    void DisableTableShader()
+    {
+        List<Renderer> renderer = GameObject.Find("Table").GetComponentsInChildren<Renderer>().ToList();
+        Shader shader = Shader.Find("Standard");
+        foreach (Renderer renders in renderer)
+        {
+            renders.material.shader = shader;
+        }
+    }
+
+    void DisableTelevisionShader()
+    {
+        List<Renderer> renderer = GameObject.Find("Television").GetComponentsInChildren<Renderer>().ToList();
+        Shader shader = Shader.Find("Standard");
+        foreach (Renderer renders in renderer)
+        {
+            renders.material.shader = shader;
+        }
+    }
+
+    void DisableAllShader()
+    {
+        DisableTableShader();
+        DisableSofaShader();
+        DisableTelevisionShader();
+    }
+
+    private void SetOutlineShader()
+    {
+        List<Renderer> renderer = selectedItem.gameObject.GetComponentsInChildren<Renderer>().ToList();
+        Shader shader = Shader.Find("Outlined/Regular");
+        foreach (Renderer renders in renderer)
+        {
+            renders.material.shader = shader;
         }
     }
 
@@ -88,24 +136,34 @@ public class EditSceneItem : MonoBehaviour
                 if (Physics.Raycast(ray, out hit, 100.0f))
                 {
                     if (selectedItem && hit.transform.tag == "PickItems")
+                    {
                         selectedItem = null;
+                        DisableAllShader();
+                    }
                     if (hit.transform.tag == "MoveAble")
                     {
+                        temp = selectedItem;
                         switch (hit.transform.gameObject.name)
                         {
                             case "Sofa":
                                 currentItem = items.sofa;
                                 selectedItem = moveAbleObject[0];
                                 temp = moveAbleObject[0];
+                                DisableTableShader();
+                                DisableTelevisionShader();
                                 break;
                             case "Table":
                                 currentItem = items.table;
                                 temp = moveAbleObject[1];
                                 selectedItem = moveAbleObject[1];
+                                DisableSofaShader();
+                                DisableTelevisionShader();
                                 break;
                             case "Television":
                                 currentItem = items.tv;
                                 temp = moveAbleObject[2];
+                                DisableSofaShader();
+                                DisableTableShader();
                                 selectedItem = moveAbleObject[2];
                                 break;
                         }

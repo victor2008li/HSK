@@ -55,6 +55,15 @@ public class MoveItemBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (selectedItem)
+        {
+            SetOutlineShader();
+        }
+        else if(temp && !selectedItem)
+        {
+            SetTempShader();
+
+        }
         if (Input.GetMouseButtonDown(1))
         {
             RaycastHit hit;
@@ -109,6 +118,35 @@ public class MoveItemBehaviour : MonoBehaviour
         }
     }
 
+    private void SetTempShader()
+    {
+        List<Renderer> renderer;
+        if (selectedItem)
+        {
+            renderer = selectedItem.gameObject.GetComponentsInChildren<Renderer>().ToList();
+        }
+        else
+        {
+            renderer = temp.gameObject.GetComponentsInChildren<Renderer>().ToList();
+        }
+
+        Shader shader = Shader.Find("Standard");
+        foreach (Renderer renders in renderer)
+        {
+            renders.material.shader = shader;
+        }
+    }
+
+    private void SetOutlineShader()
+    {
+        List<Renderer> renderer = selectedItem.gameObject.GetComponentsInChildren<Renderer>().ToList();
+        Shader shader = Shader.Find("Outlined/Regular");
+        foreach (Renderer renders in renderer)
+        {
+            renders.material.shader = shader;
+        }
+    }
+
     public void saveItems()
     {
         if (temp)
@@ -120,11 +158,16 @@ public class MoveItemBehaviour : MonoBehaviour
         }
         else
         {
-            selectedItem.transform.parent.transform.parent = GameObject.Find("part7 living room").transform;
-            selectedItem.transform.parent.tag = "MoveAble";
-            selectedItem.transform.tag = "MoveAble";
-            selectedItem = null;
+            if (selectedItem)
+            {
+                selectedItem.transform.parent.transform.parent = GameObject.Find("part7 living room").transform;
+                selectedItem.transform.parent.tag = "MoveAble";
+                selectedItem.transform.tag = "MoveAble";
+                selectedItem = null;
+            }
+
         }
+        SetTempShader();
 
     }
 

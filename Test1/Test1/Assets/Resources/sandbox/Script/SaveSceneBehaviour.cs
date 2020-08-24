@@ -42,8 +42,22 @@ public class SaveSceneBehaviour : MonoBehaviour
         {
             textMessage.text = "Room settings saved";
             textMessage.color = Color.green;
-            roomBehaviour.saveItems();
-            roomBehaviour.gameObject.GetComponent<MoveItemBehaviour>().enabled = false;
+            GameObject[] MoveAbleObject = GameObject.FindGameObjectsWithTag("MoveAble");
+            foreach(GameObject gb in MoveAbleObject)
+            {
+                List<Renderer> renderer = gb.GetComponentsInChildren<Renderer>().ToList();
+                Shader shader = Shader.Find("Standard");
+                foreach (Renderer renders in renderer)
+                {
+                    renders.material.shader = shader;
+                }
+            }
+            if (roomBehaviour != null)
+            {
+                roomBehaviour.saveItems();
+                roomBehaviour.gameObject.GetComponent<MoveItemBehaviour>().enabled = false;
+            }
+
             GameObject saveBtn = GameObject.Find("Save_Btn");
             GameObject.Find("GameManager").GetComponent<EditSceneItem>().disableSelectedItem();
             saveBtn.SetActive(false);
