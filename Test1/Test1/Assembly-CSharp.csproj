@@ -93,6 +93,7 @@
     <Compile Include="Assets\changescene.cs" />
     <Compile Include="Assets\fireSphere.cs" />
     <Compile Include="Assets\raycastTest.cs" />
+    <None Include="Assets\Resources\sandbox\New Text Document.txt" />
     <None Include="Assets\Resources\sandbox\Shaders\RegularOutline.shader" />
     <None Include="Assets\Resources\sandbox\Shaders\UltimateOutline.shader" />
     <Reference Include="Unity.Timeline.Editor">
