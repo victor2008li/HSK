@@ -17,6 +17,7 @@ public class EditSceneItem : MonoBehaviour
     [SerializeField] EditSceneItem script;
     [SerializeField] Button RotateBtn;
     GameObject temp;
+    private Touch touch;
     // Start is called before the first frame update
     public enum items { Null, sofa, table, tv };
     items currentItem;
@@ -45,9 +46,9 @@ public class EditSceneItem : MonoBehaviour
     void Update()
     {
         SwitchItem();
-        if (selectedItem && Input.GetMouseButton(1))
+        if (selectedItem && Input.GetMouseButton(0))
         {
-            RaycastHit hit;
+            /*RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit, 100.0f))
             {
@@ -56,11 +57,40 @@ public class EditSceneItem : MonoBehaviour
                 }
                 if (currentItem == items.sofa || currentItem == items.table)
                 {
-                    selectedItem.transform.position = new Vector3(hit.point.x, selectedItem.transform.position.y, hit.point.z);
+                    //selectedItem.transform.position = new Vector3(hit.point.x, selectedItem.transform.position.y, hit.point.z);
                 }
                 else if(currentItem == items.tv)
                 {
-                    selectedItem.transform.position = new Vector3(selectedItem.transform.position.x, selectedItem.transform.position.y, hit.point.z);
+                    //selectedItem.transform.position = new Vector3(selectedItem.transform.position.x, selectedItem.transform.position.y, hit.point.z);
+                }
+            }*/
+            foreach (var touches in Input.touches)
+            {
+                if (touches.tapCount == 2)
+                {
+                    selectedItem.transform.Rotate(Vector3.up * 90);
+                }
+            }
+            if (Input.touchCount > 0)
+            {
+                touch = Input.GetTouch(0);
+                if(touch.phase == TouchPhase.Moved)
+                {
+                    if (currentItem == items.sofa || currentItem == items.table)
+                    {
+                        selectedItem.transform.position = new Vector3(selectedItem.transform.position.x +
+                            touch.deltaPosition.x * Time.deltaTime,
+                            selectedItem.transform.position.y,
+                            selectedItem.transform.position.z + touch.deltaPosition.y * Time.deltaTime);
+                    }
+                    /* else if (currentItem == items.tv)
+                     {
+             
+                         selectedItem.transform.position = new Vector3(selectedItem.transform.position.x,
+                             selectedItem.transform.position.y,
+                             selectedItem.transform.position.z + touch.deltaPosition.y * Time.deltaTime);
+                     }*/
+
                 }
             }
 
@@ -129,7 +159,7 @@ public class EditSceneItem : MonoBehaviour
     {
         if (canEdit)
         {
-            if (Input.GetMouseButtonDown(1))
+            if (Input.GetMouseButtonDown(0))
             {
                 RaycastHit hit;
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

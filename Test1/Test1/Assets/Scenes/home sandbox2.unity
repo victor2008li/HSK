@@ -3703,6 +3703,7 @@ GameObject:
   - component: {fileID: 2034427691}
   - component: {fileID: 2034427690}
   - component: {fileID: 2034427689}
+  - component: {fileID: 2034427688}
   m_Layer: 5
   m_Name: DeskBtn
   m_TagString: Untagged
@@ -3729,7 +3730,7 @@ RectTransform:
   m_AnchoredPosition: {x: -99.2, y: 116}
   m_SizeDelta: {x: 600, y: 600}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2034427689
+--- !u!114 &2034427688
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3737,6 +3738,20 @@ MonoBehaviour:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2034427686}
   m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7baa1786b7bac84582b2cc4f07af13e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  desk: {fileID: 1908170667}
+  bagPage: {fileID: 0}
+--- !u!114 &2034427689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2034427686}
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 52b8b6095690cc8478a34e0a6cdd05f6, type: 3}
   m_Name: 

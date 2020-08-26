@@ -16,6 +16,7 @@ public class MoveItemBehaviour : MonoBehaviour
     Material tempMaterial = null;
     public colliderStatus status;
     public itemSurface onSurface;
+    private Touch touch;
     GameObject temp;
 
     private void Awake()
@@ -64,7 +65,7 @@ public class MoveItemBehaviour : MonoBehaviour
             SetTempShader();
 
         }
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(0))
         {
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -74,14 +75,14 @@ public class MoveItemBehaviour : MonoBehaviour
                 {
                     selectedItem = hit.transform.gameObject;
                     temp = hit.transform.gameObject;
-                  //  Camera.main.GetComponent<Functionalities>().enabled = false;
+                    Camera.main.GetComponent<Functionalities>().enabled = false;
                 }
                 if (selectedItem && hit.transform.tag == "MoveAble")
                     selectedItem = null;
             }
 
         }
-        if (selectedItem && Input.GetMouseButton(1))
+        /*if (selectedItem && Input.GetMouseButton(1))
         {
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -89,10 +90,10 @@ public class MoveItemBehaviour : MonoBehaviour
             {
                 //  if (hit.collider.name == "floor")
                 //{
-                /* if (Input.GetMouseButton(0))
-                 {
-                     selectedItem.transform.parent.rotation = Camera.main.transform.localRotation;
-                 }*/
+                // if (Input.GetMouseButton(0))
+                 //{
+                   //  selectedItem.transform.parent.rotation = Camera.main.transform.localRotation;
+                 //}
                 if (onSurface == itemSurface.KitchenTable)
                 {
                     if(hit.point.x > 8 || hit.point.x < 7)
@@ -114,8 +115,46 @@ public class MoveItemBehaviour : MonoBehaviour
                     selectedItem.transform.parent.position = new Vector3(hit.point.x, selectedItem.transform.parent.position.y, hit.point.z);
                 }
             }
+        }*/
 
+        if (selectedItem)
+        {
+            if (Input.touchCount > 0)
+            {
+                touch = Input.GetTouch(0);
+                if (touch.phase == TouchPhase.Moved)
+                {
+                    if (onSurface == itemSurface.KitchenTable)
+                    {
+                        if (selectedItem.transform.parent.position.x > 8 || selectedItem.transform.parent.position.x < 7)
+                        {
+                            return;
+                        }
+                        selectedItem.transform.parent.position = new Vector3(selectedItem.transform.position.x +
+                            touch.deltaPosition.x * Time.deltaTime,
+                            selectedItem.transform.parent.position.y, selectedItem.transform.position.z +
+                            touch.deltaPosition.y * Time.deltaTime);
+                    }
+                    else if (onSurface == itemSurface.Table)
+                    {
+                        if (selectedItem.transform.parent.position.z < -2.4 || selectedItem.transform.parent.position.z > -0.3)
+                        {
+                            return;
+                        }
+                        selectedItem.transform.parent.position = new Vector3(selectedItem.transform.parent.position.x, selectedItem.transform.parent.position.y,
+                            selectedItem.transform.parent.position.z + touch.deltaPosition.y * Time.deltaTime);
+                    }
+                    else
+                    {
+                        selectedItem.transform.parent.position = new Vector3(selectedItem.transform.position.x +
+                            touch.deltaPosition.x * Time.deltaTime, selectedItem.transform.parent.position.y, selectedItem.transform.parent.position.z + touch.deltaPosition.y * Time.deltaTime);
+                    }
+                }
+            }
         }
+
+
+        
     }
 
     private void SetTempShader()
