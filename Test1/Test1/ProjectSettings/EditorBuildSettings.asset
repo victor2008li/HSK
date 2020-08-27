@@ -24,6 +24,6 @@ EditorBuildSettings:
     path: Assets/Scenes/home.unity
     guid: 246bdb84992ec0849be638fbf4d4b3db
   - enabled: 1
-    path: Assets/Scenes/home sandbox.unity
-    guid: 1306f467e0f77914b8fb4ab12f9669e3
+    path: Assets/Scenes/home sandbox2.unity
+    guid: faf8de554843cd44ea87dd03c47482cc
   m_configObjects: {}
